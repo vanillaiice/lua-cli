@@ -52,6 +52,27 @@ print('\n')
 
 -- print help
 app:help()
+
+--[[
+-- output
+NAME:
+  kitchen
+
+DESCRIPTION:
+  cook in the kitchen
+
+VERSION:
+  1.0.0
+
+AUTHOR:
+  gordon ramsay
+
+COMMANDS:
+  cook, c	cook something
+
+GLOBAL OPTIONS:
+  --verbose, -v	be verbose
+]]--
 ```
 
 > you can also check the test directory for more examples.
