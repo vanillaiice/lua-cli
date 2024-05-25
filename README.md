@@ -54,7 +54,6 @@ print('\n')
 app:help()
 
 --[[
--- output
 NAME:
   kitchen
 
