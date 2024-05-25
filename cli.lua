@@ -1,6 +1,6 @@
 local flag = require("flag")
 
-local version = "0.0.1"
+local version = "0.0.2"
 
 local cli = { _version = version }
 
@@ -10,7 +10,7 @@ function cli.newFlag(name, alias, usage, value, required)
 		alias = alias,
 		usage = usage,
 		value = value,
-		required = required
+		required = required,
 	}
 end
 
@@ -78,6 +78,8 @@ function cli.app(name, ver, author, description)
 
 	function app.help(self)
 		local help = ""
+		local lines = {}
+		local longest = 0
 
 		help = help..string.format("NAME:\n  %s", self.name or "")
 		help = help..string.format("\n\nDESCRIPTION:\n  %s", self.description or "")
@@ -85,9 +87,41 @@ function cli.app(name, ver, author, description)
 		help = help..string.format("\n\nAUTHOR:\n  %s", self.author or "")
 
 		help = help.."\n\nCOMMANDS:\n"
+
+
+		for _, v in pairs(self.commands) do
+			local l = {a = nil, b = nil}
+
+			if v.name then
+				l.a = string.format("  %s", v.name)
+			end
+
+			if v.alias then
+				l.a = l.a..string.format(", %s", v.alias)
+			end
+
+			if v.usage then
+				l.b = v.usage
+			end
+
+			table.insert(lines, l)
+		end
+
+		for _, line in ipairs(lines) do
+				if line.a and #line.a > longest then
+					longest = #line.a
+			end
+		end
+
+		for _, line in ipairs(lines) do
+			if line.a then
+				help = help..string.format("%-"..longest.."s\t%s\n", line.a, line.b or "")
+			end
+		end
+
 		help = help.."\nGLOBAL OPTIONS:\n"
 
-		local lines = {}
+		lines = {}
 
 		for _, v in ipairs(self.flags) do
 			local l = {a = nil, b = nil}
@@ -111,7 +145,7 @@ function cli.app(name, ver, author, description)
 			end
 		end
 
-		local longest = 0
+		longest = 0
 		for _, line in ipairs(lines) do
 				if line.a and #line.a > longest then
 					longest = #line.a

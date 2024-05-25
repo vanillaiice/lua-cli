@@ -37,4 +37,4 @@ app:run({"--make", "subaru", "-o", "wrx sti", "-h", 300, "--drivers", "Bunta Fuj
 
 app:run({"--make", "subaru", "-o", "wrx sti", "-h", 300, "--drivers", "Bunta Fujiwara,Takumi Fujiwara"})
 
--- app:help()
+app:help()
