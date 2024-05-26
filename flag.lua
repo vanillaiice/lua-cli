@@ -1,6 +1,10 @@
 local flag = {}
 
 local isFlag = function (fl)
+	if not fl then
+		return nil, false
+	end
+
   local _, i = string.find(fl, "^%-%-")
 
 	if i then
@@ -16,6 +20,10 @@ local isFlag = function (fl)
 end
 
 local getFlag = function (fl)
+	if not fl then
+		return nil, false
+	end
+
 	local i, is = isFlag(fl)
 	if is then
 		return string.sub(fl, i + 1)
