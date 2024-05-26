@@ -1,8 +1,6 @@
 local flag = require("flag")
 
-local version = "0.0.4"
-
-local cli = { _version = version }
+local cli = {}
 
 function cli.newFlag(name, alias, usage, value, required)
 	return {

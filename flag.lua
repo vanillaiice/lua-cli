@@ -1,5 +1,3 @@
-local flag = {}
-
 local isFlag = function (fl)
 	if not fl then
 		return nil, false
@@ -21,7 +19,7 @@ end
 
 local getFlag = function (fl)
 	if not fl then
-		return nil, false
+		return nil
 	end
 
 	local i, is = isFlag(fl)
@@ -32,7 +30,7 @@ local getFlag = function (fl)
 	end
 end
 
-local checkFlag = function (fl, flags)
+local checkValidFlag = function (fl, flags)
 	local match
 	if #fl == 1 then
 		for _, v in pairs(flags) do
@@ -72,7 +70,7 @@ local getArg = function (arg)
 	end
 end
 
-function flag.parse(flags, commands, args)
+local parse = function (flags, commands, args)
 	local flagMap = {flags = {}, commands = {}}
 
 	local foundFirstCommand, match
@@ -86,7 +84,7 @@ function flag.parse(flags, commands, args)
 
 			if not foundFirstCommand then
 				if fl and arg then
-					fl, match = checkFlag(fl, flags)
+					fl, match = checkValidFlag(fl, flags)
 					if not match then
 						error(string.format("unknown flag: %s", args[idx]))
 					end
@@ -99,7 +97,7 @@ function flag.parse(flags, commands, args)
 				end
 			else
 				if fl and arg then
-					fl, match = checkFlag(fl, commands[currentCmd].flags)
+					fl, match = checkValidFlag(fl, commands[currentCmd].flags)
 					if not match then
 						error(string.format("unknown flag: %s", args[idx]))
 					end
@@ -147,4 +145,4 @@ function flag.parse(flags, commands, args)
 	return flagMap
 end
 
-return flag
+return {parse = parse, isFlag = isFlag, getFlag = getFlag, checkValidFlag = checkValidFlag, getArg = getArg}

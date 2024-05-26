@@ -21,7 +21,14 @@ app:addCommands(
 		assert(globalFlagMap["engine-specs"] == nil, string.format("got %s want %s", globalFlagMap["engine-specs"], nil))
 		assert(localFlagMap.sound == "STUSTUSTU", string.format("got %s want %s", localFlagMap.sound, "STUSTUSTU"))
 	end),
-	cli.newCommand("full-send", "f", "full send the car", {}, function() assert(true) end)
+	cli.newCommand("full-send", "f", "full send the car", {}, function(globalFlagMap)
+		assert(globalFlagMap.make == "subaru", string.format("got %s want %s", globalFlagMap.make, "subaru"))
+		assert(globalFlagMap.model == "wrx sti", string.format("got %s want %s", globalFlagMap.model, "wrx sti"))
+		assert(globalFlagMap.horsepower == 300, string.format("got %s want %s", globalFlagMap.horsepower, 300))
+		assert(globalFlagMap.drivers[1] == "Bunta Fujiwara", string.format("got %s want %s", globalFlagMap.drivers[1], "Bunta Fujiwara"))
+		assert(globalFlagMap.drivers[2] == "Takumi Fujiwara", string.format("got %s want %s", globalFlagMap.drivers[2], "Takumi Fujiwara"))
+		assert(globalFlagMap["engine-specs"] == nil, string.format("got %s want %s", globalFlagMap["engine-specs"], nil))
+	end)
 )
 
 app:setAction(function(flagMap)
@@ -36,5 +43,9 @@ end)
 app:run({"--make", "subaru", "-o", "wrx sti", "-h", 300, "--drivers", "Bunta Fujiwara,Takumi Fujiwara", "rev", "-s", "STUSTUSTU", "full-send"})
 
 app:run({"--make", "subaru", "-o", "wrx sti", "-h", 300, "--drivers", "Bunta Fujiwara,Takumi Fujiwara"})
+
+assert(not pcall(app.run, app, {"--top-speed", 340}))
+
+assert(not pcall(app.run, app, {}))
 
 app:help()
