@@ -52,8 +52,10 @@ print('\n')
 
 -- print help
 app:help()
+```
 
---[[
+```sh
+# output of help
 NAME:
   kitchen
 
@@ -71,7 +73,6 @@ COMMANDS:
 
 GLOBAL OPTIONS:
   --verbose, -v	be verbose
-]]--
 ```
 
 > you can also check the test directory for more examples.
